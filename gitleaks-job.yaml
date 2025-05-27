@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitleaks-scan
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: gitleaks
+          image: zricethezav/gitleaks:v8.17.0
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "=== Running Gitleaks ==="
+              git clone <URL_DE_TON_REPO> /tmp/repo
+              cd /tmp/repo
+              gitleaks detect --source . --verbose --redact
+              

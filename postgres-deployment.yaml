@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: bitnami/postgresql:14
+          env:
+            - name: POSTGRESQL_DATABASE
+              value: sonardb
+            - name: POSTGRESQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRESQL_USERNAME
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRESQL_PASSWORD
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /bitnami/postgresql
+      volumes:
+        - name: postgres-storage
+          emptyDir: {}

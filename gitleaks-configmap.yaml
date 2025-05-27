@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitleaks-config
+data:
+  .gitleaks.toml: |
+    title = "Custom Gitleaks Config"
+    
+    [[rules]]
+    description = "AWS Secret Key"
+    regex = '''AKIA[0-9A-Z]{16}'''
+    tags = ["key", "AWS"]
