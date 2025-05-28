@@ -6,19 +6,6 @@ spec:
   template:
     spec:
       restartPolicy: Never
-<<<<<<< HEAD
-      containers:
-        - name: gitleaks
-          image: zricethezav/gitleaks:v8.17.0
-          command: ["sh", "-c"]
-          args:
-            - |
-              echo "=== Running Gitleaks ==="
-              git clone <URL_DE_TON_REPO> /tmp/repo
-              cd /tmp/repo
-              gitleaks detect --source . --verbose --redact
-              
-=======
       securityContext:
         runAsNonRoot: true
         seccompProfile:
@@ -46,4 +33,3 @@ spec:
               gitleaks detect --source=. --report-path=/tmp/gitleaks-report.json
               echo "=== Résultat du scan Gitleaks ==="
               cat /tmp/gitleaks-report.json
->>>>>>> a109c97 (Màj 3 du gitleaks file)
