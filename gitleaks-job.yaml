@@ -27,9 +27,9 @@ spec:
           command: ["sh", "-c"]
           args:
             - |
-              echo "=== Démarrage du scan Gitleaks ==="
+              echo "démarrage du scan gitleaks"
               git clone https://$GITHUB_TOKEN@github.com/rhood00/sonar10.git /tmp/repo
               cd /tmp/repo
               gitleaks detect --source=. --report-path=/tmp/gitleaks-report.json
-              echo "=== Résultat du scan Gitleaks ==="
+              echo "résultat du scan gitleaks"
               cat /tmp/gitleaks-report.json
