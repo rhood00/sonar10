@@ -6,6 +6,7 @@ spec:
   template:
     spec:
       restartPolicy: Never
+<<<<<<< HEAD
       containers:
         - name: gitleaks
           image: zricethezav/gitleaks:v8.17.0
@@ -17,3 +18,32 @@ spec:
               cd /tmp/repo
               gitleaks detect --source . --verbose --redact
               
+=======
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: gitleaks
+          image: zricethezav/gitleaks:v8.17.0
+          env:
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-token
+                  key: token
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "=== Démarrage du scan Gitleaks ==="
+              git clone https://$GITHUB_TOKEN@github.com/rhood00/sonar10.git /tmp/repo
+              cd /tmp/repo
+              gitleaks detect --source=. --report-path=/tmp/gitleaks-report.json
+              echo "=== Résultat du scan Gitleaks ==="
+              cat /tmp/gitleaks-report.json
+>>>>>>> a109c97 (Màj 3 du gitleaks file)
